@@ -7,10 +7,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:mylogin_191/pages/login.dart';
 
-import '../utility/TextfieldWidget.dart';
-import '../utility/buttonWidget.dart';
 import '../utility/imagewidget.dart';
-import '../utility/mytext.dart';
 
 class SignUp extends StatefulWidget {
   SignUp({super.key});
@@ -59,10 +56,9 @@ class _SignUpState extends State<SignUp> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const MyText(
-                    MylableText: 'Sign Up',
-                    FontSize: 35,
-                  ),
+                  const Text('Sign Up',
+                      style:
+                          TextStyle(fontSize: 40, fontWeight: FontWeight.bold)),
                   SizedBox(
                     height: 30,
                   ),
