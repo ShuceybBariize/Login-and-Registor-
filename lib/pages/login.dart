@@ -1,5 +1,8 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
+import 'dart:developer';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mylogin_191/utility/imagewidget.dart';
 
@@ -7,8 +10,32 @@ import '../utility/buttonWidget.dart';
 import '../utility/mytext.dart';
 import 'SignUp.dart';
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+class LoginPage extends StatefulWidget {
+  LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final _email = TextEditingController();
+
+  final _password = TextEditingController();
+
+  bool isloading = false;
+
+  Future signIn() async {
+    try {
+      isloading = true;
+      setState(() {});
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: _email.text, password: _password.text);
+    } catch (e) {
+      log(e.toString());
+    }
+    isloading = false;
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +67,7 @@ class LoginPage extends StatelessWidget {
 
                     // input username/password
                     TextField(
+                      controller: _email,
                       decoration: InputDecoration(
                           hintText: 'Email ID',
                           prefixIcon: Icon(Icons.alternate_email_outlined)),
@@ -47,7 +75,9 @@ class LoginPage extends StatelessWidget {
                     SizedBox(
                       height: 30,
                     ),
-                    const TextField(
+                    TextField(
+                      controller: _password,
+                      obscureText: true,
                       decoration: InputDecoration(
                         hintText: 'Password',
                         prefixIcon: Icon(Icons.lock),
@@ -63,8 +93,20 @@ class LoginPage extends StatelessWidget {
                       height: 30,
                     ),
 
-                    MyButton(
-                      btnText: 'Login',
+                    GestureDetector(
+                      child: MaterialButton(
+                        color: Color.fromARGB(227, 39, 94, 223),
+                        minWidth: double.infinity,
+                        height: 65,
+                        onPressed: () {
+                          signIn();
+                        },
+                        child: isloading
+                            ? CircularProgressIndicator(
+                                backgroundColor: Colors.white,
+                              )
+                            : Text('LOGIN'),
+                      ),
                     ),
                     // registor now
                     SizedBox(
